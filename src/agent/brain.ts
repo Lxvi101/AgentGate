@@ -29,6 +29,14 @@ Guidelines:
   // 1. Load History
   const history = getHistory(ctx);
 
+  // --- Log User to Samantha ---
+  ctx.bus.emit("node:log", {
+    source: `User:${userId}`,
+    target: "Samantha",
+    action: "message",
+    payload: { text: userMessage, imagesCount: images.length },
+  });
+
   // 2. Format User Content (Text + Images)
   const userContent: Array<{ type: "text"; text: string } | { type: "image"; image: string }> = [
     { type: "text", text: userMessage },
@@ -54,6 +62,14 @@ Guidelines:
     });
 
     saveMessage(ctx, "assistant", text);
+
+    // --- Log Samantha to User ---
+    ctx.bus.emit("node:log", {
+      source: "Samantha",
+      target: `User:${userId}`,
+      action: "reply",
+      payload: { text },
+    });
 
     return text;
   } catch (error: any) {

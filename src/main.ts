@@ -2,6 +2,7 @@
 import { config } from "./core/config";
 import { initDatabase } from "./core/database";
 import { AppEventBus } from "./core/events";
+import { initNodeNetLogger } from "./core/logger";
 import { createBot, registerTelegramListeners } from "./domains/telegram/bot";
 import { sanitizeHtmlForTelegram } from "./domains/telegram/html";
 import { runAgentTurn } from "./agent/brain";
@@ -23,6 +24,9 @@ async function bootstrap() {
     config,
     bot,
   };
+
+  // Initialize the Node Net Logger
+  initNodeNetLogger(ctx);
 
   // 3. Register Domain Listeners
   registerTelegramListeners(ctx);
@@ -72,7 +76,7 @@ async function bootstrap() {
       { parse_mode: "HTML" }
     );
 
-    // Give Claire the highly compressed, pre-fetched context
+    // Give Samantha the highly compressed, pre-fetched context
     const prompt = `
 [SYSTEM EVENT: Actionable Email]
 From: ${email.from}
@@ -91,7 +95,7 @@ Based on this summary and context, decide if you need to reply via email tools o
     if (response) {
       await ctx.bot.api.sendMessage(
         ctx.config.TELEGRAM_CHAT_ID,
-        `🤖 <b>Claire's Action:</b>\n${sanitizeHtmlForTelegram(response)}`,
+        `🤖 <b>Samantha's Action:</b>\n${sanitizeHtmlForTelegram(response)}`,
         { parse_mode: "HTML" }
       );
     }
@@ -108,7 +112,7 @@ Based on this summary and context, decide if you need to reply via email tools o
     if (response) {
       await ctx.bot.api.sendMessage(
         ctx.config.TELEGRAM_CHAT_ID,
-        `🤖 <b>Claire's Response:</b>\n${sanitizeHtmlForTelegram(response)}`,
+        `🤖 <b>Samantha's Response:</b>\n${sanitizeHtmlForTelegram(response)}`,
         { parse_mode: "HTML" }
       );
     }
@@ -117,7 +121,7 @@ Based on this summary and context, decide if you need to reply via email tools o
   // 9. Start the Bot
   await bot.start({
     onStart: (botInfo) => {
-      console.log(`🤖 Claire is live as @${botInfo.username}`);
+      console.log(`🤖 Samantha is live as @${botInfo.username}`);
     },
   });
 }

@@ -49,6 +49,22 @@ type AppEventMap = {
     conversationId: string;
   };
   "reminder:triggered": { id: string; note: string };
+
+  // --- Node Net Logging Framework ---
+  "node:log": {
+    source: string;       // e.g., "User", "Samantha", "AgentHub"
+    target: string;       // e.g., "Samantha", "AgentHub", "HelperAgent-12"
+    action: string;       // e.g., "message", "delegate", "tool_call"
+    payload: any;         // The actual data (intent, text, etc.)
+    timestamp?: string;
+  };
+
+  // --- AgentHub Events ---
+  "agenthub:search": {
+    searchId: string;
+    intent: string;
+    capabilities: string[];
+  };
 };
 
 // Type definitions to make EventEmitter type-safe

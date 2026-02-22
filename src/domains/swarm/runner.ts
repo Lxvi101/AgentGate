@@ -26,7 +26,7 @@ export async function runSubAgent(
       tools: childTools,
       stopWhen: stepCountIs(5),
       system: `
-        You are a sub-agent working for Claire (the Mother Agent).
+        You are a sub-agent working for Samantha (the Mother Agent).
         Your ID is: #${agentId}.
         
         INSTRUCTIONS:

@@ -15,6 +15,9 @@ const envSchema = z.object({
 
   // Google
   GOOGLE_API_KEY: z.string().min(1, "Google API Key is required"),
+
+  // AgentHub
+  AGENTHUB_URL: z.string().min(1, "AgentHub URL is required"),
 });
 
 // Validate immediately on module load

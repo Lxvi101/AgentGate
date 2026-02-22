@@ -100,9 +100,9 @@ export function registerEmailPipeline(ctx: AppContext) {
         }
       }
 
-      // 5. Hand over to Claire (Emit actionable event)
+      // 5. Hand over to Samantha (Emit actionable event)
       console.log(
-        `🎯 Pipeline finished. Handing ${object.category} over to Claire.`
+        `🎯 Pipeline finished. Handing ${object.category} over to Samantha.`
       );
       ctx.bus.emit("email:actionable", {
         from: rawEmail.from,
