@@ -32,17 +32,30 @@ export const createAgentHubTools = (ctx: AppContext) => {
         // 2. Simulate Hub finding an agent (mocking the network delay)
         const response = await fetch(ctx.config.AGENTHUB_URL, {
           method: "POST",
+          headers: { "content-type": "application/json" },
           body: JSON.stringify({ intent, capabilities }),
         }).catch(() => null); // Catching to allow the mock to continue if URL is offline
 
-        const data = await response?.json();
+        const data = (await response?.json().catch(() => null)) ?? [];
 
         // 3. Log the response coming BACK to Samantha
         ctx.bus.emit("node:log", {
           source: "AgentHub",
           target: "Samantha",
           action: "search_hub_result",
-          payload: { results_count: data.length, matches: data.map(m => m.agent_id) },
+          payload: {
+            results_count: data.length,
+            matches: data.map((m: any) => m.agent_id),
+            matches_detail: data.map((m: any) => ({
+              agent_id: m.agent_id,
+              endpoint: m.endpoint,
+              confidence: m.trust,
+              capabilities: m.metadata?.capabilities ?? [],
+              description: m.metadata?.description ?? "",
+              tags: m.metadata?.tags ?? [],
+              reasoning: m.reasoning ?? "",
+            })),
+          },
         });
 
         return data;
@@ -84,6 +97,7 @@ export const createAgentHubTools = (ctx: AppContext) => {
         try {
           const response = await fetch(agent_url, {
             method: "POST",
+            headers: { "content-type": "application/json" },
             body: JSON.stringify({ prompt, session_id: activeSessionId }),
           });
           if (response.ok) {

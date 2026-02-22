@@ -7,6 +7,7 @@ import { createBot, registerTelegramListeners } from "./domains/telegram/bot";
 import { sanitizeHtmlForTelegram } from "./domains/telegram/html";
 import { runAgentTurn } from "./agent/brain";
 import { startScheduler } from "./domains/reminders/scheduler";
+import { startApiServer } from "./api/server";
 import type { AppContext } from "./core/context";
 
 async function bootstrap() {
@@ -27,6 +28,9 @@ async function bootstrap() {
 
   // Initialize the Node Net Logger
   initNodeNetLogger(ctx);
+
+  // Start the REST API server (frontend ↔ agent-network bridge)
+  startApiServer(ctx);
 
   // 3. Register Domain Listeners
   registerTelegramListeners(ctx);

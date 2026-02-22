@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --background: 230 50% 8%;
+    --foreground: 220 20% 90%;
+
+    --card: 230 40% 12%;
+    --card-foreground: 220 20% 90%;
+
+    --popover: 230 40% 12%;
+    --popover-foreground: 220 20% 90%;
+
+    --primary: 210 100% 60%;
+    --primary-foreground: 230 50% 8%;
+
+    --secondary: 250 30% 20%;
+    --secondary-foreground: 220 20% 90%;
+
+    --muted: 230 30% 16%;
+    --muted-foreground: 220 15% 55%;
+
+    --accent: 180 80% 55%;
+    --accent-foreground: 230 50% 8%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 230 25% 18%;
+    --input: 230 25% 18%;
+    --ring: 210 100% 60%;
+
+    --radius: 0.5rem;
+
+    /* Custom tokens */
+    --glow-primary: 210 100% 60%;
+    --glow-accent: 180 80% 55%;
+    --glow-success: 150 80% 50%;
+    --surface-elevated: 230 35% 14%;
+    --surface-glass: 230 40% 12%;
+    --text-code: 180 60% 70%;
+    --telegram-blue: 200 80% 55%;
+    --agent-purple: 260 60% 60%;
+    --connection-green: 150 70% 50%;
+    --path-dot: 220 20% 30%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  code, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer utilities {
+  .glow-primary {
+    box-shadow: 0 0 20px hsl(var(--glow-primary) / 0.3), 0 0 60px hsl(var(--glow-primary) / 0.1);
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 20px hsl(var(--glow-accent) / 0.3), 0 0 60px hsl(var(--glow-accent) / 0.1);
+  }
+
+  .glow-success {
+    box-shadow: 0 0 20px hsl(var(--glow-success) / 0.3), 0 0 60px hsl(var(--glow-success) / 0.1);
+  }
+
+  .glow-telegram {
+    box-shadow: 0 0 15px hsl(var(--telegram-blue) / 0.3);
+  }
+
+  .glass-surface {
+    background: hsl(var(--surface-glass) / 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border) / 0.5);
+  }
+
+  .gradient-bg {
+    background: linear-gradient(180deg, hsl(230 50% 6%) 0%, hsl(245 45% 10%) 50%, hsl(230 50% 8%) 100%);
+  }
+
+  .night-bg {
+    background: linear-gradient(180deg, hsl(230 60% 4%) 0%, hsl(240 50% 7%) 30%, hsl(250 40% 10%) 60%, hsl(235 50% 6%) 100%);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(var(--foreground)), hsl(var(--muted-foreground)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-gradient-accent {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .dotted-path {
+    stroke-dasharray: 6 8;
+  }
+
+  .grid-bg {
+    background-image: 
+      linear-gradient(hsl(var(--border) / 0.15) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.15) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+}

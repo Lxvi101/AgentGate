@@ -35,3 +35,80 @@ Bulletproof Continuity: If your phone loses connection and reconnects 5 minutes 
 
 2. Vision Alignment (Incentives): For online Shopping?
 Agents need to align on goals. If your LocalAgent's goal is "Save money" and the Delta NetAgent's goal is "Maximize profit," they are misaligned. They align through cryptographic contracts. Your LocalAgent can broadcast a "bounty" (e.g., "$200 for a flight to NYC"). Multiple NetAgents can bid on it. The vision is aligned because the rules of engagement are enforced by math and smart contracts, not trusting a corporation's API.
+
+---
+
+## Frontend (ai-sequence-map)
+
+This backend includes a WebSocket log broadcaster that listens on **`ws://localhost:8080`** (see `src/core/logger.ts`). The `ai-sequence-map` repo can be used as a UI frontend.
+
+### Recommended: add it as a Git submodule
+
+From this repo root:
+
+```sh
+# If you already cloned it as a normal folder, remove it first
+rm -rf frontend
+
+git submodule add https://github.com/geashley/ai-sequence-map.git frontend
+git submodule update --init --recursive
+```
+
+### Alternatives (when you don’t want submodules)
+
+- **Vendored copy (tracked in this repo)**:
+
+```sh
+rm -rf frontend
+git clone https://github.com/geashley/ai-sequence-map.git frontend
+rm -rf frontend/.git
+```
+
+- **Nested repo (NOT tracked by this repo)**:
+
+```sh
+git clone https://github.com/geashley/ai-sequence-map.git frontend
+```
+
+### Run backend + frontend together (dev)
+
+- **Backend**:
+
+```sh
+bun install
+bun run dev
+```
+
+- **Frontend** (important: avoid port 8080):
+
+The `ai-sequence-map` Vite dev server is configured to use port **8080** by default, which conflicts with this backend’s WebSocket server.
+
+Run it on a different port:
+
+```sh
+cd frontend
+npm install
+npm run dev -- --port 5173
+```
+
+---
+
+## Agent network server (AgentHub / NetAgents)
+
+This repo also contains a Python FastAPI “agent network hub” at `agent-network/`.
+
+### Run it (dev)
+
+```sh
+cd agent-network
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
+```
+
+### Point the Bun backend at it
+
+Set:
+
+- **`AGENTHUB_URL`**: `http://localhost:8000/search`
